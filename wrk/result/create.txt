@@ -1,0 +1,12 @@
+# Load testing machine specifications: 8-core 16GB, transaction-management instance specifications: 8-core 16GB.
+
+# first 60s
+./wrk -t8 -c100 -d60s --script=create.lua http://172.16.32.27:8080/api/transaction
+Running 1m test @ http://172.16.32.27:8080/api/transaction
+  8 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     4.58ms   15.03ms 295.96ms   95.57%
+    Req/Sec     7.05k     2.35k   15.28k    84.04%
+  3368960 requests in 1.00m, 1.51GB read
+Requests/sec:  56057.90
+Transfer/sec:     25.65MB

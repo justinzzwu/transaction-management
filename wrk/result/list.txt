@@ -1,0 +1,35 @@
+# Load testing machine specifications: 8-core 16GB, transaction-management instance specifications: 8-core 16GB.
+
+# empty transaction list
+./wrk -t8 -c100 -d60s http://172.16.32.43:8080/api/transaction/list
+Running 1m test @ http://172.16.32.43:8080/api/transaction/list
+  8 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     1.06ms    1.18ms  67.34ms   97.43%
+    Req/Sec    12.29k   567.33    18.89k    77.15%
+  5874382 requests in 1.00m, 0.99GB read
+Requests/sec:  97743.62
+Transfer/sec:     16.80MB
+
+# 16117 transactions, no cache, default page size is 10，-Dspring.cache.type=none
+./wrk -t8 -c100 -d60s http://172.16.32.43:8080/api/transaction/list
+Running 1m test @ http://172.16.32.43:8080/api/transaction/list
+  8 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    14.56ms   10.68ms 250.33ms   92.02%
+    Req/Sec     0.91k    84.79     1.35k    80.12%
+  433225 requests in 1.00m, 1.41GB read
+Requests/sec:   7217.82
+Transfer/sec:     24.00MB
+
+
+# 15243 transactions, enable cache, -Dspring.cache.type=caffeine
+./wrk -t8 -c100 -d60s http://172.16.32.42:8080/api/transaction/list
+Running 1m test @ http://172.16.32.42:8080/api/transaction/list
+  8 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     1.66ms    1.74ms  90.01ms   95.99%
+    Req/Sec     7.98k     1.28k   15.55k    95.09%
+  3815927 requests in 1.00m, 12.30GB read
+Requests/sec:  63493.26
+Transfer/sec:    209.64MB
